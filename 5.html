@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple To-Do List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        #taskInput {
+            width: 70%;
+            padding: 10px;
+            margin-right: 10px;
+        }
+
+        #addButton {
+            padding: 10px;
+        }
+
+        ul {
+            list-style-type: none;
+        }
+
+        li {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Simple To-Do List</h1>
+    <div>
+        <input type="text" id="taskInput" placeholder="Add a new task">
+        <button id="addButton">Add</button>
+    </div>
+    <ul id="taskList">
+        <!-- Tasks will be added here -->
+    </ul>
+
+    <script>
+        const taskInput = document.getElementById('taskInput');
+        const addButton = document.getElementById('addButton');
+        const taskList = document.getElementById('taskList');
+
+        addButton.addEventListener('click', () => {
+            const taskText = taskInput.value.trim();
+
+            if (taskText !== '') {
+                const listItem = document.createElement('li');
+                listItem.innerHTML = `
+                    <input type="checkbox" class="task-checkbox">
+                    <span class="task-text">${taskText}</span>
+                    <button class="delete-button">Delete</button>
+                `;
+
+                taskList.appendChild(listItem);
+
+                // Clear the input field
+                taskInput.value = '';
+
+                // Attach event listeners for task completion and deletion
+                const taskCheckbox = listItem.querySelector('.task-checkbox');
+                const deleteButton = listItem.querySelector('.delete-button');
+
+                taskCheckbox.addEventListener('change', () => {
+                    if (taskCheckbox.checked) {
+                        listItem.classList.add('completed');
+                    } else {
+                        listItem.classList.remove('completed');
+                    }
+                });
+
+                deleteButton.addEventListener('click', () => {
+                    taskList.removeChild(listItem);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
